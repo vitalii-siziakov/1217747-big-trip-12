@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Виталий Сизяков](https://up.htmlacademy.ru/ecmascript/12/user/1217747).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Беляев](https://htmlacademy.ru/profile/id691043).
 
 ---
 
