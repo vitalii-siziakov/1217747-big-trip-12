@@ -9,7 +9,7 @@ export const getRandomArrElem = (arr) => {
 };
 
 // Функция: возвращает массив строк длиной не более переданного с уникальными значениями
-export const getRandomArr = function (arr, maxLenght = arr.length) {
+export const getRandomArr = (arr, maxLenght = arr.length) => {
   let newArr = [];
   let newArrLength = getRandomNumberInRange(1, maxLenght);
 
@@ -32,4 +32,16 @@ export const roundDown = (number, precision) => {
 // Функция: округление в большую сторону c заданием точности
 export const roundUp = (number, precision) => {
   return Math.ceil(number / precision) * precision;
+};
+
+// Функция: делает первую букву слова/предложения заглавной
+export const capitalizeFirstCharacter = (word) => {
+  return word[0].toUpperCase() + word.slice(1);
+};
+
+// Функция: возвращает последнее слово в предложении
+export const getLastWord = (sentence) => {
+  let splitResult = sentence.split(` `);
+  let lastWord = splitResult [splitResult.length - 1];
+  return lastWord;
 };

@@ -1,12 +1,136 @@
 // Форма создания/редактирования (используется одна форма)
-export const createEventEditTemplate = () => {
+import {capitalizeFirstCharacter, getLastWord} from "../utils.js";
+import {getDateTimeShort} from "../utils-date-time.js";
+import {eventOffers} from "../mock/event.js";
+
+const createOffersContains = (offersAvailableArr, offersArr) => {
+  let offersAvailable = ``;
+  for (let i = 0; i < offersAvailableArr.length; i++) {
+    let offer = offersAvailableArr[i];
+    let title = offer.title;
+    let price = offer.price;
+    let nameId = `event-offer-${(getLastWord(title).toLowerCase())}`;
+    let checked = ``;
+    if (offersArr.includes(offer)) {
+      checked = `checked`;
+    }
+
+    let offerAvailable = (
+      `<div class="event__offer-selector">
+          <input class="event__offer-checkbox  visually-hidden" id="${nameId}-1" type="checkbox" name="${nameId}" ${checked}>
+            <label class="event__offer-label" for="${nameId}-1">
+              <span class="event__offer-title">${title}</span>
+              &plus;
+              &euro;&nbsp;<span class="event__offer-price">${price}</span>
+            </label>
+      </div>`
+    );
+    offersAvailable += offerAvailable;
+  }
+  return offersAvailable;
+};
+
+const createOffersBlock = (offersAvailableArr, offersArr) => {
+  let block = ``;
+  if (offersAvailableArr.length) {
+    block = (
+      `<section class="event__section  event__section--offers">
+        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+          <div class="event__available-offers">
+            ${createOffersContains(offersAvailableArr, offersArr)}
+          </div>
+      </section>`);
+  }
+  return block;
+};
+
+const createPicturesContains = (picturesArr) => {
+  let pictures = ``;
+  for (let i = 0; i < picturesArr.length; i++) {
+    let picture = (
+      `<img class="event__photo" src="${picturesArr[i].src}" alt="${picturesArr[i].description}">`
+    );
+    pictures = pictures + picture;
+  }
+  return pictures;
+};
+
+const createDescriptionContains = (description) => {
+  let block = ``;
+  if (description.length) {
+    block = (
+      `<p class="event__destination-description">${description}</p>`);
+  }
+  return block;
+};
+
+const createPicturesBlock = (picturesArr) => {
+  let block = ``;
+  if (picturesArr.length) {
+    block = (
+      `<div class="event__photos-container">
+        <div class="event__photos-tape">
+          ${createPicturesContains(picturesArr)}
+        </div>
+      </div>`);
+  }
+  return block;
+};
+
+const createDescriptionPicturesBlock = (description, picturesArr) => {
+  let block = ``;
+  if (description.length || picturesArr.length) {
+    block = (
+      `<section class="event__section  event__section--destination">
+
+      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+        ${createDescriptionContains(description)}
+        ${createPicturesBlock(picturesArr)}
+    </section>`);
+  }
+  return block;
+};
+
+const createEventTypeName = (type) => {
+  const eventTo = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`];
+  let eventInTo = ``;
+
+  if (eventTo.includes(type)) {
+    eventInTo = `${capitalizeFirstCharacter(type)} to`;
+  } else {
+    eventInTo = `${capitalizeFirstCharacter(type)} in`;
+  }
+  return eventInTo;
+};
+
+const createEventEditInfo = (point) => {
+
+  const eventEditInfo = {
+    "eventIcon": `img/icons/${point.type}.png`,
+    "eventType": point.type,
+    "eventTypeName": createEventTypeName(point.type),
+    "eventDestinationName": point.destination.name,
+    "eventStartDateTime": getDateTimeShort(point.date_from),
+    "eventEndDateTime": getDateTimeShort(point.date_to),
+    "eventBasePrice": point.base_price,
+    "eventTypeOffersAvailable": eventOffers[point.type],
+    "eventOffers": point.offers,
+    "eventPictures": point.destination.pictures,
+    "eventDescription": point.destination.description,
+  };
+  return eventEditInfo;
+};
+
+export const createEventEditTemplate = (point) => {
+  const eventEditInfo = createEventEditInfo(point);
+
   return (
     `<form class="trip-events__item  event  event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/bus.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="${eventEditInfo.eventIcon}" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -20,7 +144,7 @@ export const createEventEditTemplate = () => {
               </div>
 
               <div class="event__type-item">
-                <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus" checked>
+                <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
                 <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
               </div>
 
@@ -73,9 +197,9 @@ export const createEventEditTemplate = () => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            Bus to
+            ${eventEditInfo.eventTypeName}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${eventEditInfo.eventDestinationName}" list="destination-list-1">
           <datalist id="destination-list-1">
             <option value="Amsterdam"></option>
             <option value="Geneva"></option>
@@ -88,12 +212,12 @@ export const createEventEditTemplate = () => {
           <label class="visually-hidden" for="event-start-time-1">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="18/03/19 00:00">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${eventEditInfo.eventStartDateTime}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="18/03/19 00:00">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${eventEditInfo.eventEndDateTime}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -101,12 +225,19 @@ export const createEventEditTemplate = () => {
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">
+          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${eventEditInfo.eventBasePrice}">
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Cancel</button>
       </header>
+      <section class="event__details">
+
+        ${createOffersBlock(eventEditInfo.eventTypeOffersAvailable, eventEditInfo.eventOffers)}
+
+        ${createDescriptionPicturesBlock(eventEditInfo.eventDescription, eventEditInfo.eventPictures)}
+
+      </section>
      </form>`
   );
 };

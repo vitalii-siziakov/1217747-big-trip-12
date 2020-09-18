@@ -1,32 +1,61 @@
-import {getRandomArrElem} from "./utils.js";
-import {getRandomArr} from "./utils.js";
+import {getRandomArrElem, getRandomArr} from "../utils.js";
 
 const MAX_EVENT_OFFERS_LENGTH = 5;
 
-const eventOffers = {
+export const eventOffers = {
   "taxi": [
-    {"Order Uber": 20}
+    {
+      "title": `Order Uber`,
+      "price": 20
+    }
   ],
   "bus": [],
   "train": [],
   "ship": [],
   "transport": [],
   "drive": [
-    {"Rent a car": 200}
+    {
+      "title": `Rent a car`,
+      "price": 200
+    }
   ],
   "flight": [
-    {"Add luggage": 50},
-    {"Switch to comfort": 80},
-    {"Add meal": 15},
-    {"Choose seats": 5},
-    {"Travel by train": 40}
+    {
+      "title": `Add luggage`,
+      "price": 50
+    },
+    {
+      "title": `Switch to comfort`,
+      "price": 80
+    },
+    {
+      "title": `Add meal`,
+      "price": 15
+    },
+    {
+      "title": `Choose seats`,
+      "price": 5
+    },
+    {
+      "title": `Travel by train`,
+      "price": 40
+    }
   ],
   "check-in": [
-    {"Add breakfast": 50}
+    {
+      "title": `Add breakfast`,
+      "price": 50
+    }
   ],
   "sightseeing": [
-    {"Book tickets": 40},
-    {"Lunch in city": 30}
+    {
+      "title": `Book tickets`,
+      "price": 40
+    },
+    {
+      "title": `Lunch in city`,
+      "price": 30
+    }
   ],
   "restaurant": []
 };
@@ -40,13 +69,13 @@ export const getRandomEvent = () => {
   if (eventOffers[type].length >= MAX_EVENT_OFFERS_LENGTH) {
     offers = getRandomArr(eventOffers[type], MAX_EVENT_OFFERS_LENGTH);
   } else if (eventOffers[type].length) {
-    offers = getRandomArr(eventOffers[type], MAX_EVENT_OFFERS_LENGTH);
+    offers = getRandomArr(eventOffers[type]);
   }
 
-  const event = {
+  const evt = {
     "type": type,
     "offers": offers
   };
 
-  return event;
+  return evt;
 };

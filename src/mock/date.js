@@ -1,5 +1,4 @@
-import {getRandomNumberInRange} from "./utils.js";
-import {roundDown} from "./utils.js";
+import {getRandomNumberInRange, roundDown} from "../utils.js";
 
 const MAX_HOURS_ADD = 24;
 const MAX_MINUTES_ADD = 60;
@@ -13,4 +12,3 @@ export const createNextDate = (startDate = new Date()) => {
 
   return newDate;
 };
-

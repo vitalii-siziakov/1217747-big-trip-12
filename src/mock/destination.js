@@ -1,6 +1,4 @@
-import {getRandomNumberInRange} from "./utils.js";
-import {getRandomArrElem} from "./utils.js";
-import {getRandomArr} from "./utils.js";
+import {getRandomNumberInRange, getRandomArrElem, getRandomArr} from "../utils.js";
 
 const MAX_DESCRIPTION_LENGTH = 5;
 const MAX_PICTURES_LENGTH = 5;

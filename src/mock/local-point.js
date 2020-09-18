@@ -1,17 +1,16 @@
-import {getRandomNumberInRange} from "./utils.js";
-import {roundUp} from "./utils.js";
+import {getRandomNumberInRange, roundUp} from "../utils.js";
 import {createNextDate} from "./date.js";
 import {getRandomDestination} from "./destination.js";
 import {getRandomEvent} from "./event.js";
 
 const MIN_BASE_PRICE = 20;
-const MAX_BASE_PRICE = 5000;
+const MAX_BASE_PRICE = 1500;
 
 const createLocalPoint = (startDate = new Date()) => {
 
   let dateFrom = createNextDate(startDate);
   let dateTo = createNextDate(dateFrom);
-  let event = getRandomEvent();
+  let evt = getRandomEvent();
   let basePrice = getRandomNumberInRange(MIN_BASE_PRICE, MAX_BASE_PRICE);
 
   const localPoint = {
@@ -20,8 +19,8 @@ const createLocalPoint = (startDate = new Date()) => {
     "date_to": dateTo,
     "destination": getRandomDestination(),
     "is_favorite": Boolean(getRandomNumberInRange(0, 1)),
-    "offers": event.offers,
-    "type": event.type
+    "offers": evt.offers,
+    "type": evt.type
   };
   return localPoint;
 };
@@ -39,4 +38,3 @@ export const createLocalPointsArr = (count) => {
   }
   return localPointArr;
 };
-
