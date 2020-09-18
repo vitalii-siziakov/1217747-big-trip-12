@@ -1,3 +1,4 @@
+import {render} from "./utils.js";
 import {createTripInfoTemplate} from "./view/trip-info.js";
 import {createMainMenuTemplate} from "./view/main-menu.js";
 import {createFilterTemplate} from "./view/filter.js";
@@ -8,10 +9,6 @@ import {createEventTemplate} from "./view/event.js";
 import {createLocalPointsArr} from "./mock/local-point.js";
 
 const EVENT_COUNT = 30;
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const renderDayEvents = (dayArr, count = 1) => {
   render(siteEventsFragment, createDayTemplate(dayArr[0].date_from, count), `beforeend`);

@@ -1,3 +1,8 @@
+// Функция: рендерит элементы на страницу
+export const render = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
+
 // Функция: возвращает случайное число в интервале (включительно)
 export const getRandomNumberInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;

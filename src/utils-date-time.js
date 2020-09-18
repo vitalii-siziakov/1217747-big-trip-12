@@ -1,42 +1,3 @@
-// Функция: возвращает строку дата и время в формате YYYY-MM-DdateTime00:00
-export const getDateTime = (datetime) => {
-  let dateTime = new Date(datetime);
-  return (dateTime.toISOString()).slice(0, -8);
-};
-
-// Функция: возвращает строку дата и время в формате DD/MM/YY 00:00
-export const getDateTimeShort = (datetime) => {
-  let day = (datetime.toISOString()).slice(8, -14);
-  let month = (datetime.toISOString()).slice(5, -17);
-  let year = (datetime.toISOString()).slice(2, -20);
-
-  return `${day}/${month}/${year} ${getTime(datetime)}`;
-};
-
-// Функция: возвращает строку дата в формате YYYY-MM-DD
-export const getDate = (datetime) => {
-  let dateTime = new Date(datetime);
-  return (dateTime.toISOString()).slice(0, -14);
-};
-
-// Функция: возвращает строку месяц и день в формате: MON DD
-export const getMonDay = (datetime) => {
-  let dateTime = new Date(datetime);
-  let day = (dateTime.toISOString()).slice(8, -14);
-
-  let options = {
-    month: `long`
-  };
-  let result = dateTime.toLocaleString(`en`, options);
-  return `${(result.slice(0, 3)).toLocaleUpperCase()} ${day}`;
-};
-
-// Функция: возвращает строку время в формате: 00:00
-export const getTime = (datetime) => {
-  let dateTime = new Date(datetime);
-  return (dateTime.toISOString()).slice(11, -8);
-};
-
 // Функция: добавляет 0 к дням/часам/минутам/секундам < 10
 const addZeroToDateTime = (date) => {
   let result = date;
@@ -44,6 +5,52 @@ const addZeroToDateTime = (date) => {
     result = `0${date}`;
   }
   return result;
+};
+
+// Функция: возвращает строку время в формате: 00:00
+export const getTime = (datetime) => {
+  let dateTime = new Date(datetime);
+  let hours = addZeroToDateTime(dateTime.getHours());
+  let minutes = addZeroToDateTime(dateTime.getMinutes());
+
+  return `${hours}:${minutes}`;
+};
+
+// Функция: возвращает строку дата в формате YYYY-MM-DD
+export const getDate = (datetime) => {
+  let dateTime = new Date(datetime);
+  let day = addZeroToDateTime(dateTime.getDate());
+  let month = addZeroToDateTime(dateTime.getMonth() + 1);
+  let year = addZeroToDateTime(dateTime.getFullYear());
+
+  return `${year}-${month}-${day}`;
+};
+
+// Функция: возвращает строку дата и время в формате YYYY-MM-DDT00:00
+export const getDateTime = (datetime) => {
+  return `${getDate(datetime)}T${getTime(datetime)}`;
+};
+
+// Функция: возвращает строку дата и время в формате DD/MM/YY 00:00
+export const getDateTimeShort = (datetime) => {
+  let dateTime = new Date(datetime);
+  let day = addZeroToDateTime(dateTime.getDate());
+  let month = addZeroToDateTime(dateTime.getMonth() + 1);
+  let year = addZeroToDateTime(String(dateTime.getFullYear()).slice(0, -2));
+
+  return `${day}/${month}/${year} ${getTime(dateTime)}`;
+};
+
+// Функция: возвращает строку месяц и день в формате: MON DD
+export const getMonDay = (datetime) => {
+  let dateTime = new Date(datetime);
+  let day = addZeroToDateTime(dateTime.getDate());
+
+  let options = {
+    month: `long`
+  };
+  let month = dateTime.toLocaleString(`en`, options);
+  return `${(month.slice(0, 3)).toLocaleUpperCase()} ${day}`;
 };
 
 // Функция: возвращает строку время (разница между одним и вторым) в формате: 00D 00H 00M
