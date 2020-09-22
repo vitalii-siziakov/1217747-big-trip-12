@@ -1,5 +1,5 @@
 // Точка маршрута
-import {capitalizeFirstCharacter} from "../utils.js";
+import {createElement, capitalizeFirstCharacter} from "../utils.js";
 import {getDateTime, getTime, getDifferentTime} from "../utils-date-time.js";
 
 const createEventTitle = (type, place) => {
@@ -59,30 +59,30 @@ const createEventInfo = (point) => {
 
 
 export const createEventTemplate = (point) => {
-  const eventInfo = createEventInfo(point);
+  const {eventIcon, eventTitle, eventStartDateTime, eventStartTime, eventEndDateTime, eventEndTime, eventDurationTime, eventBasePrice, eventOffers} = createEventInfo(point);
 
   return (
     `<li class="trip-events__item">
       <div class="event">
         <div class="event__type">
-          <img class="event__type-icon" width="42" height="42" src="${eventInfo.eventIcon}" alt="Event type icon">
+          <img class="event__type-icon" width="42" height="42" src="${eventIcon}" alt="Event type icon">
         </div>
-        <h3 class="event__title">${eventInfo.eventTitle}</h3>
+        <h3 class="event__title">${eventTitle}</h3>
 
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="${eventInfo.eventStartDateTime}">${eventInfo.eventStartTime}</time>
+            <time class="event__start-time" datetime="${eventStartDateTime}">${eventStartTime}</time>
             &mdash;
-            <time class="event__end-time" datetime="${eventInfo.eventEndDateTime}">${eventInfo.eventEndTime}</time>
+            <time class="event__end-time" datetime="${eventEndDateTime}">${eventEndTime}</time>
           </p>
-          <p class="event__duration">${eventInfo.eventDurationTime}</p>
+          <p class="event__duration">${eventDurationTime}</p>
         </div>
 
         <p class="event__price">
-          &euro;&nbsp;<span class="event__price-value">${eventInfo.eventBasePrice}</span>
+          &euro;&nbsp;<span class="event__price-value">${eventBasePrice}</span>
         </p>
 
-        ${eventInfo.eventOffers}
+        ${eventOffers}
 
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
@@ -91,3 +91,26 @@ export const createEventTemplate = (point) => {
    </li>`
   );
 };
+
+export default class Event {
+  constructor(point) {
+    this._point = point;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventTemplate(this._point);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
