@@ -1,4 +1,5 @@
 // День
+import {createElement} from "../utils.js";
 import {getDate, getMonDay, getDifferentDays} from "../utils-date-time.js";
 
 const createUniqDatesArr = (pointsArr) => {
@@ -51,7 +52,7 @@ export const createDaysArr = (pointsArr) => {
   return daysArr;
 };
 
-export const createDayTemplate = (datetime, count = 1) => {
+const createDayTemplate = (datetime, count = 1) => {
   return (
     `<ul class="trip-days">
       <li class="trip-days__item  day">
@@ -65,3 +66,27 @@ export const createDayTemplate = (datetime, count = 1) => {
      </ul>`
   );
 };
+
+export default class Day {
+  constructor(datetime, count = 1) {
+    this._datetime = datetime;
+    this._count = count;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createDayTemplate(this._datetime, this._count);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
