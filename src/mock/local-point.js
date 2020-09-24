@@ -1,4 +1,4 @@
-import {getRandomNumberInRange, roundUp} from "../utils.js";
+import {getRandomNumberInRange, roundUp} from "../utils/common.js";
 import {createNextDate} from "./date.js";
 import {getRandomDestination} from "./destination.js";
 import {getRandomEvent} from "./event.js";
