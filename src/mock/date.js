@@ -1,4 +1,4 @@
-import {getRandomNumberInRange, roundDown} from "../utils.js";
+import {getRandomNumberInRange, roundDown} from "../utils/common.js";
 
 const MAX_HOURS_ADD = 24;
 const MAX_MINUTES_ADD = 60;

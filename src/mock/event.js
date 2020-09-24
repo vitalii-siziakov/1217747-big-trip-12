@@ -1,4 +1,4 @@
-import {getRandomArrElem, getRandomArr} from "../utils.js";
+import {getRandomArrElem, getRandomArr} from "../utils/common.js";
 
 const MAX_EVENT_OFFERS_LENGTH = 5;
 
