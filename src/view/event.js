@@ -3,10 +3,10 @@ import Abstract from "./abstract.js";
 import {createEventInfo} from "../utils/event.js";
 
 export const createEventTemplate = (point) => {
-  const {eventIcon, eventTitle, eventStartDateTime, eventStartTime, eventEndDateTime, eventEndTime, eventDurationTime, eventBasePrice, eventOffers} = createEventInfo(point);
+  const {eventId, eventIcon, eventTitle, eventStartDateTime, eventStartTime, eventEndDateTime, eventEndTime, eventDurationTime, eventBasePrice, eventOffers} = createEventInfo(point);
 
   return (
-    `<li class="trip-events__item">
+    `<li class="trip-events__item" data-id="${eventId}">
       <div class="event">
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="${eventIcon}" alt="Event type icon">

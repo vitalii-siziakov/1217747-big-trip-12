@@ -44,6 +44,7 @@ export const createEventInfo = (point) => {
   let eventEndDateTime = getDateTime(point.date_to);
 
   const eventInfo = {
+    "eventId": point.id,
     "eventIcon": `img/icons/${point.type}.png`,
     "eventTitle": createEventTitle(point.type, point.destination.name),
     "eventStartDateTime": eventStartDateTime,

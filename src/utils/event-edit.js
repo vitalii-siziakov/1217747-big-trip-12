@@ -105,6 +105,7 @@ const createEventTypeName = (type) => {
 export const createEventEditInfo = (point) => {
 
   const eventEditInfo = {
+    "eventId": point.id,
     "eventIcon": `img/icons/${point.type}.png`,
     "eventType": point.type,
     "eventTypeName": createEventTypeName(point.type),
@@ -112,10 +113,11 @@ export const createEventEditInfo = (point) => {
     "eventStartDateTime": getDateTimeShort(point.date_from),
     "eventEndDateTime": getDateTimeShort(point.date_to),
     "eventBasePrice": point.base_price,
+    "eventIsFavorite": point.is_favorite,
     "eventTypeOffersAvailable": eventOffers[point.type],
     "eventOffersChecked": point.offers,
     "eventPictures": point.destination.pictures,
-    "eventDescription": point.destination.description,
+    "eventDescription": point.destination.description
   };
   return eventEditInfo;
 };
