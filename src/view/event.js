@@ -48,13 +48,16 @@ export default class Event extends Abstract {
     return createEventTemplate(this._point);
   }
 
-  _editClickHandler(evt) {
-    evt.preventDefault();
+  _editClickHandler() {
     this._callback.editClick();
   }
 
   setEditClickHandler(callback) {
     this._callback.editClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
+  }
+
+  removeElement() {
+    this._element.getElement().remove();
   }
 }

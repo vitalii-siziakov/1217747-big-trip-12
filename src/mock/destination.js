@@ -3,7 +3,7 @@ import {getRandomNumberInRange, getRandomArrElem, getRandomArr} from "../utils/c
 const MAX_DESCRIPTION_LENGTH = 5;
 const MAX_PICTURES_LENGTH = 5;
 
-const getRandomDescription = (descriptions, maxLenght) => {
+const getRandomDescription = (descriptions, maxLenght = MAX_DESCRIPTION_LENGTH) => {
   let descriptionArr = getRandomArr(descriptions, maxLenght);
 
   return descriptionArr.join(` `);
@@ -18,7 +18,7 @@ const getRandomPictureObj = (name) => {
   return picture;
 };
 
-const getRandomPicturesArr = (name, maxLenght) => {
+export const getRandomPicturesArr = (name, maxLenght = MAX_PICTURES_LENGTH) => {
   let picturesArr = [];
   let picturesArrLength = getRandomNumberInRange(1, maxLenght);
 
@@ -42,6 +42,8 @@ const descriptions = [
   `Nunc fermentum tortor ac porta dapibus.`,
   `In rutrum ac purus sit amet tempus.`,
 ];
+
+export const randomDescription = () => getRandomDescription(descriptions, MAX_DESCRIPTION_LENGTH);
 
 const names = [
   `Amsterdam`, `Chamonix`, `Geneva`,

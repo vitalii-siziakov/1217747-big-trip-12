@@ -2,7 +2,24 @@ import {getLastWord, capitalizeFirstCharacter} from "./common.js";
 import {getDateTimeShort} from "./utils-date-time.js";
 import {eventOffers} from "../mock/event.js";
 
-const createOffersContains = (offersAvailableArr, offersArr) => {
+const createEventTypeBlock = (type) => {
+  return (
+    `<div class="event__type-item">
+      <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${capitalizeFirstCharacter(type)}</label>
+    </div>`
+  );
+};
+
+export const createEventTypesBlock = (typesArr) => {
+  let block = ``;
+  for (let i = 0; i < typesArr.length; i++) {
+    block += createEventTypeBlock(typesArr[i]);
+  }
+  return block;
+};
+
+export const createOffersContains = (offersAvailableArr, offersArr = []) => {
   let offersAvailable = ``;
   for (let i = 0; i < offersAvailableArr.length; i++) {
     let offer = offersAvailableArr[i];
@@ -10,8 +27,12 @@ const createOffersContains = (offersAvailableArr, offersArr) => {
     let price = offer.price;
     let nameId = `event-offer-${(getLastWord(title).toLowerCase())}`;
     let checked = ``;
-    if (offersArr.includes(offer)) {
-      checked = `checked`;
+
+    for (let b = 0; b < offersArr.length; b++) {
+      let offerArrElement = offersArr[b];
+      if (offerArrElement.title === title && offerArrElement.price === price) {
+        checked = `checked`;
+      }
     }
 
     let offerAvailable = (

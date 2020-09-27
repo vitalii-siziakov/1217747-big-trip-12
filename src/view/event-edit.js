@@ -1,11 +1,13 @@
 // Форма создания/редактирования (используется одна форма)
 import Abstract from "./abstract.js";
-import {createEventEditInfo, createOffersBlock, createDescriptionPicturesBlock} from "../utils/event-edit.js";
+import {createEventTypesBlock, createEventEditInfo, createOffersBlock, createDescriptionPicturesBlock} from "../utils/event-edit.js";
+
+const TRANSFER_TYPES = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`];
+const ACTIVITY_TYPES = [`check-in`, `sightseeing`, `restaurant`];
 
 const createEventEditTemplate = (point) => {
   const {eventId, eventIcon, eventTypeName, eventDestinationName, eventStartDateTime, eventEndDateTime, eventBasePrice, eventIsFavorite, eventTypeOffersAvailable, eventOffersChecked, eventPictures, eventDescription} = createEventEditInfo(point);
-  const isFavorite = (eventIsFavorite) ? `checked` : ``;
-
+  const isFavorite = (eventIsFavorite) ? `checked = checked` : ``;
 
   return (
     `<li class="trip-events__item" data-id="${eventId}">
@@ -21,60 +23,12 @@ const createEventEditTemplate = (point) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Transfer</legend>
-
-                <div class="event__type-item">
-                  <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-                  <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
-                  <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-                  <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-                  <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-transport-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="transport">
-                  <label class="event__type-label  event__type-label--transport" for="event-type-transport-1">Transport</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-                  <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight">
-                  <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
-                </div>
+                  ${createEventTypesBlock(TRANSFER_TYPES)}
               </fieldset>
 
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Activity</legend>
-
-                <div class="event__type-item">
-                  <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-                  <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-                  <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-                  <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
-                </div>
+                  ${createEventTypesBlock(ACTIVITY_TYPES)}
               </fieldset>
             </div>
           </div>
@@ -145,6 +99,8 @@ export default class EventEdit extends Abstract {
     this._point = point;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formClickFavoriteHandler = this._formClickFavoriteHandler.bind(this);
+    this._formChangeTypeHandler = this._formChangeTypeHandler.bind(this);
   }
 
   getTemplate() {
@@ -156,8 +112,33 @@ export default class EventEdit extends Abstract {
     this._callback.formSubmit();
   }
 
+  // Метод для установки обработчика для Submit
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  _formClickFavoriteHandler() {
+    this._callback.formClickFavorite();
+  }
+
+  // Метод для установки обработчика клика для Favorite
+  setformClickFavoriteHandler(callback) {
+    this._callback.formClickFavorite = callback;
+    this.getElement().querySelector(`.event__favorite-checkbox`).addEventListener(`click`, this._formClickFavoriteHandler);
+  }
+
+  _formChangeTypeHandler() {
+    this._callback.formChangeType();
+  }
+
+  // Метод для установки обработчика клика для Type
+  setFormChangeTypeHandler(callback) {
+    this._callback.formChangeType = callback;
+    this.getElement().addEventListener(`click`, this._formChangeTypeHandler);
+  }
+
+  removeElement() {
+    this.getElement().remove();
   }
 }
